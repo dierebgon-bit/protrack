@@ -132,4 +132,25 @@ button {
     background: rgba(0, 0, 0, 0.5);
     z-index: 1050;
   }
+
+  /* Calendario: cuadrícula compacta, sin scroll horizontal */
+  .calendar-day-cell {
+    min-height: 58px !important;
+    padding: 3px !important;
+  }
+
+  .calendar-event-pill {
+    font-size: 9px !important;
+    padding: 1px 4px !important;
+  }
+
+  .calendar-weekday-label {
+    font-size: 9px !important;
+    padding: 5px 0 !important;
+  }
+}
+
+/* 16px evita que iOS Safari haga zoom automático al enfocar el campo */
+.notes-textarea {
+  font-size: 16px !important;
 }

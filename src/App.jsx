@@ -8,6 +8,8 @@ import Dashboard from './components/Dashboard';
 import ProjectsList from './components/ProjectsList';
 import ProjectDetail from './components/ProjectDetail';
 import MiVida from './components/MiVida';
+import Calendar from './components/Calendar';
+import Notes from './components/Notes';
 
 export default function App() {
   const [projects, setProjects] = useSyncedState('projects', INITIAL_PROJECTS);
@@ -88,6 +90,13 @@ export default function App() {
 
             {effectiveView === 'mi-vida' && (
               <MiVida />
+            )}
+
+            {effectiveView === 'calendar' && (
+              <>
+                <Calendar projects={projects} onNavigate={setView} />
+                <Notes />
+              </>
             )}
 
             {selectedProject && (
