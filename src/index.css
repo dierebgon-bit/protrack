@@ -86,3 +86,50 @@ button {
   background: #111;
   color: #fff;
 }
+
+/* Mobile sidebar */
+.mobile-topbar {
+  display: none;
+}
+
+.sidebar-close-btn {
+  display: none;
+}
+
+.sidebar-overlay {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-topbar {
+    display: flex;
+  }
+
+  .sidebar-close-btn {
+    display: flex !important;
+  }
+
+  .sidebar-container {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    z-index: 1100;
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    box-shadow: 2px 0 16px rgba(0, 0, 0, 0.35);
+  }
+
+  .sidebar-container.sidebar-open {
+    transform: translateX(0);
+  }
+
+  .sidebar-overlay.sidebar-open {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1050;
+  }
+}
