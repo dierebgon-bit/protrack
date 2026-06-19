@@ -1,3 +1,7 @@
+// App sin login real: todos los dispositivos comparten este mismo usuario
+// para que los datos sincronicen entre escritorio y móvil vía Supabase.
+export const USER_ID = '87718e8d-ea8a-45f3-a706-01eb849a889f';
+
 export const STATUS_COLORS = {
   Activo: '#1D9E75',
   Pausado: '#BA7517',

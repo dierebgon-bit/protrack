@@ -1,16 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useLocalStorage } from './hooks/useLocalStorage';
+import { useSyncedState } from './hooks/useSyncedState';
 import { INITIAL_PROJECTS } from './utils/initialData';
+import { USER_ID } from './utils/constants';
 import Sidebar from './components/Sidebar';
 import Dashboard from './components/Dashboard';
 import ProjectsList from './components/ProjectsList';
 import ProjectDetail from './components/ProjectDetail';
 import MiVida from './components/MiVida';
 
-const USER_ID = '87718e8d-ea8a-45f3-a706-01eb849a889f';
-
 export default function App() {
-  const [projects, setProjects] = useLocalStorage('protrack-projects', INITIAL_PROJECTS);
+  const [projects, setProjects] = useSyncedState('projects', INITIAL_PROJECTS);
   const [view, setView] = useLocalStorage('protrack-view', 'dashboard');
   const [mobileOpen, setMobileOpen] = useState(false);
 

@@ -10,21 +10,35 @@ export function useLocalStorage(key, initialValue) {
       const item = window.localStorage.getItem(key);
       return item ? JSON.parse(item) : initialValue;
     } catch (error) {
-      console.warn(`Error reading localStorage key "${key}":`, error);
+      console.error(`[ProTrack] Error leyendo "${key}" de localStorage, se usa el valor por defecto:`, error);
       return initialValue;
     }
   });
 
   const setValue = (value) => {
-    try {
-      // Allow value to be a function (same API as useState)
-      const valueToStore =
-        value instanceof Function ? value(storedValue) : value;
-      setStoredValue(valueToStore);
-      window.localStorage.setItem(key, JSON.stringify(valueToStore));
-    } catch (error) {
-      console.warn(`Error writing localStorage key "${key}":`, error);
-    }
+    // Resolve against React's own pending state (functional update) instead of
+    // the `storedValue` closure, so rapid/batched updates never overwrite each
+    // other with a stale snapshot.
+    setStoredValue((prev) => {
+      let valueToStore;
+      try {
+        valueToStore = value instanceof Function ? value(prev) : value;
+      } catch (error) {
+        console.error(`[ProTrack] Error calculando el nuevo valor para "${key}":`, error);
+        return prev;
+      }
+
+      try {
+        window.localStorage.setItem(key, JSON.stringify(valueToStore));
+      } catch (error) {
+        console.error(
+          `[ProTrack] No se pudo guardar "${key}" en localStorage. El cambio solo existe en esta sesión y se perderá al recargar. Causa:`,
+          error
+        );
+      }
+
+      return valueToStore;
+    });
   };
 
   // Sync across tabs
@@ -33,8 +47,8 @@ export function useLocalStorage(key, initialValue) {
       if (e.key === key && e.newValue) {
         try {
           setStoredValue(JSON.parse(e.newValue));
-        } catch {
-          // ignore parse errors from other tabs
+        } catch (error) {
+          console.error(`[ProTrack] Error sincronizando "${key}" desde otra pestaña:`, error);
         }
       }
     };

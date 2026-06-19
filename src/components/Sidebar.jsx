@@ -11,6 +11,14 @@ export default function Sidebar({ projects, view, onNavigate, mobileOpen, onClos
     onClose && onClose();
   };
 
+  // Temporal: limpia la caché local de los datos sincronizados y recarga,
+  // forzando a que App/MiVida vuelvan a pedirlo todo a Supabase desde cero.
+  const forceSync = () => {
+    window.localStorage.removeItem('protrack-projects');
+    window.localStorage.removeItem('protrack-vida');
+    window.location.reload();
+  };
+
   return (
     <>
       <div
@@ -74,6 +82,14 @@ export default function Sidebar({ projects, view, onNavigate, mobileOpen, onClos
         </nav>
         <div style={{ padding: '16px 20px', borderTop: '1px solid #1a1a1a', fontSize: 11, color: '#333' }}>
           {projects.length} proyecto{projects.length !== 1 ? 's' : ''}
+          <button
+            onClick={forceSync}
+            title="Borra la caché local y vuelve a cargar todo desde Supabase"
+            style={{ display: 'block', marginTop: 8, background: 'none', border: '1px solid #2a2a2a',
+              borderRadius: 6, padding: '5px 10px', cursor: 'pointer', fontSize: 11, color: '#777',
+              fontFamily: 'inherit', width: '100%', textAlign: 'left' }}>
+            🔄 Forzar sincronización
+          </button>
         </div>
       </div>
     </>

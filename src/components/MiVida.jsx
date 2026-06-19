@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useSyncedState } from '../hooks/useSyncedState';
 import { Modal, Input, Select, Textarea, Btn, Badge } from './UI';
 import { formatDate } from '../utils/helpers';
 
@@ -83,7 +83,7 @@ const EMPTY_GOAL = {
    COMPONENTE PRINCIPAL
 ═══════════════════════════════════════════════════════════════ */
 export default function MiVida() {
-  const [vida, setVida] = useLocalStorage('protrack-vida', INITIAL_VIDA);
+  const [vida, setVida] = useSyncedState('vida', INITIAL_VIDA);
 
   // Selected category (highlights card)
   const [activeCat, setActiveCat]   = useState(null);
